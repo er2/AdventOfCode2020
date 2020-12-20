@@ -18,14 +18,10 @@ sub calc-seat-id(Int $row, Int $column) {
   $row * 8 + $column
 }
 
-my $max-seat-id = [max] gather {
-  for ("input.txt".IO.lines) -> $line {
-    given $line {
-      when /<seat>/ {
-        my ($row-str, $col-str) = $<seat>.hash<frontback leftright>;
-        take calc-seat-id(calc-row($row-str), calc-column($col-str));
-      }
-    }
+my $max-seat-id = [max] gather for ("input.txt".IO.lines) {
+  when /<seat>/ {
+    my ($row-str, $col-str) = $<seat>.hash<frontback leftright>;
+    take calc-seat-id(calc-row($row-str), calc-column($col-str));
   }
 }
 
