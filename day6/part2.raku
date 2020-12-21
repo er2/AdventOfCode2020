@@ -8,7 +8,7 @@ grammar GroupAnswers {
 
 class GroupEvaluator {
   method TOP($/)               { make $<group-answer>.map: *.made; }
-  method group-answer($/)      { make [∪] $<individual-answer>.map: *.made; }
+  method group-answer($/)      { make [∩] $<individual-answer>.map: *.made; }
   method individual-answer($/) { make set $/.comb; }
 }
 
