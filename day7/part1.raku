@@ -21,22 +21,27 @@ class BuildRuleMap {
 
 my %rules = Rules.parsefile("input.txt", actions => BuildRuleMap).made;
 
-say %rules;
+# say %rules;
 my @flipped = %rules.kv
   .flatmap(-> $k, @v { @v.grep(*.defined).map(* => $k)});
 
 my %flipped = @flipped.categorize: {.key}, :as{.value};
 say %flipped;
 
-sub search($color, %rules, &accept) {
-  for (%rules{$color}) -> $container {
-    &accept($container);
-    search($color, %rules, &accept);
+sub search($color, %rules, $c) {
+  for (%rules{$color}) -> @container {
+    if @container.defined {
+      for (@container) -> $contained {
+        say $contained;
+        $c.set($contained);
+        say $c;
+        search($contained, %rules, $c) if !$c{$contained};
+      }
+    }
   }
 }
 
 my SetHash $c .= new;
-sub consume { $c.set($^a) }
-search('shiny gold', %rules, &consume);
+search('shiny gold', %rules, $c);
 
 say +$c;
