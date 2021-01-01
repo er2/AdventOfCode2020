@@ -1,4 +1,3 @@
-
 my $group-answers = SetHash.new;
 my @answers = gather for ("input.txt".IO.lines) {
   if $_ eq "" {
@@ -10,4 +9,4 @@ my @answers = gather for ("input.txt".IO.lines) {
   LAST take $group-answers;
 }
 
-say @answers.map(+*).sum;
+say @answers.sum;

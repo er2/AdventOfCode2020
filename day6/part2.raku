@@ -1,5 +1,3 @@
-# use Grammar::Debugger;
-
 grammar GroupAnswers {
   token TOP               { <group-answer>+ %% \v+ }
   token group-answer      { <individual-answer>+ %% \s }
@@ -13,4 +11,4 @@ class GroupEvaluator {
 }
 
 my @answers = GroupAnswers.parsefile("input.txt", actions => GroupEvaluator).made;
-say @answers.map(+*).sum;
+say @answers.sum;
